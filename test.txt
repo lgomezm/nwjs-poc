@@ -1,0 +1,1 @@
+This is a file to be installed by the NW.js POC.

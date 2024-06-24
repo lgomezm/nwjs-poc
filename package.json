@@ -2,22 +2,55 @@
   "name": "nwjs-poc",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
+  "main": "main.js",
+  "homepage": ".",
+  "node-remote": [
+    "http://127.0.0.1:3042",
+    "file://*"
+  ],
+  "build": {
+    "manifestProps": [
+      "name",
+      "version",
+      "main",
+      "node-remote"
+    ],
+    "osTypes": [
+      "windows",
+      "linux",
+      "osx"
+    ]
+  },
+  "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "nw": "0.88.0-sdk",
+    "nw-builder": "^4.7.6",
     "react": "^18.3.1",
+    "react-devtools": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "wait-on": "^7.2.0",
+    "web-vitals": "^2.1.4",
+    "nwjs-dialog": "^1.1.0"
   },
   "scripts": {
+    "dev": "concurrently \"npm start\" \"wait-on http://127.0.0.1:3042 && cross-env NWJS_START_URL=http://127.0.0.1:3042 nw --enable-logging=stderr .\"",
+    "dev-tools": "concurrently \"react-devtools\" \"cross-env REACT_APP_DEVTOOLS=enabled npm start\" \"wait-on http://127.0.0.1:3042 && cross-env NWJS_START_URL=http://127.0.0.1:3042 nw --enable-logging=stderr .\"",
+    "predist": "cross-env GENERATE_SOURCEMAP=false BUILD_PATH=./dist/app/build/ npm run build",
+    "dist": "node dist.mjs",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "globals": {
+      "nw": true
+    },
     "extends": [
       "react-app",
       "react-app/jest"
